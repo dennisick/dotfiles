@@ -35,6 +35,13 @@ require("blink.cmp").setup({
 		-- See `:help blink-cmp-config-keymap` for defining your own keymap
 		preset = "default",
 
+		-- Accept the currently selected completion with <CR> (Enter).
+		-- When the menu is not visible, <CR> falls back to its default
+		-- behavior (inserting a newline). Accepting a completion also
+		-- applies any additional text edits the LSP sends, which is what
+		-- enables auto-imports for symbols from other modules.
+		["<CR>"] = { "accept", "fallback" },
+
 		-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
 		--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
 	},
@@ -49,6 +56,39 @@ require("blink.cmp").setup({
 		-- By default, you may press `<c-space>` to show the documentation.
 		-- Optionally, set `auto_show = true` to show the documentation after a delay.
 		documentation = { auto_show = false, auto_show_delay_ms = 500 },
+
+		menu = {
+			draw = {
+				-- Show the source path/namespace of each suggestion next to it.
+				-- `label_description` uses `labelDetails.description` (often empty),
+				-- while `source_path` (custom) falls back to `labelDetails.detail`
+				-- and then `item.detail`, which is where LSPs like tsserver put
+				-- the import path (e.g. `../../lib/db`).
+				columns = {
+					{ "kind_icon" },
+					{ "label", "label_description", gap = 1 },
+					{ "kind" },
+					{ "source_path" },
+				},
+				components = {
+					source_path = {
+						width = { max = 40 },
+						text = function(ctx)
+							local item = ctx.item
+							local text = nil
+							if type(item.labelDetails) == "table" then
+								text = item.labelDetails.detail
+							end
+							if not text or text == "" then
+								text = item.detail
+							end
+							return text or ""
+						end,
+						highlight = "BlinkCmpLabelDescription",
+					},
+				},
+			},
+		},
 	},
 
 	sources = {

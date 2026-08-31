@@ -13,6 +13,7 @@ vim.keymap.set("n", "<leader>e", ":Neotree toggle position=left<CR>", { noremap 
 
 require("neo-tree").setup({
 	filesystem = {
+		filtered_items = { visible = true }, -- show dotfiles/gitignored (dimmed); `H` toggles
 		window = {
 			mappings = {
 				["\\"] = "close_window",
