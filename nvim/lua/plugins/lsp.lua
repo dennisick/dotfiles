@@ -117,6 +117,8 @@ local servers = {
 	tailwindcss = {},
 	-- Docker
 	dockerls = {},
+	-- Terraform
+	terraformls = {},
 	-- SQL
 	sqlls = {},
 	-- JSON

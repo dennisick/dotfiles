@@ -32,6 +32,8 @@ local parsers = {
 	"phpdoc",
 	"regex",
 	"sql",
+	"terraform",
+	"hcl",
 	"typescript",
 	"yaml",
 	"xml",
