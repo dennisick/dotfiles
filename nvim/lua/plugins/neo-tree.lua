@@ -14,6 +14,7 @@ vim.keymap.set("n", "<leader>e", ":Neotree toggle position=left<CR>", { noremap 
 require("neo-tree").setup({
 	filesystem = {
 		filtered_items = { visible = true }, -- show dotfiles/gitignored (dimmed); `H` toggles
+		follow_current_file = { enabled = true }, -- reveal the active buffer's file in the tree
 		window = {
 			mappings = {
 				["\\"] = "close_window",
