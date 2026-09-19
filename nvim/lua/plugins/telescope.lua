@@ -45,6 +45,26 @@ require("telescope").setup({
 	--   },
 	-- },
 	-- pickers = {}
+	defaults = {
+		-- Include hidden files in live_grep / grep_string, but skip .git
+		vimgrep_arguments = {
+			"rg",
+			"--color=never",
+			"--no-heading",
+			"--with-filename",
+			"--line-number",
+			"--column",
+			"--smart-case",
+			"--hidden",
+			"--glob",
+			"!**/.git/*",
+		},
+	},
+	pickers = {
+		find_files = {
+			find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+		},
+	},
 	extensions = {
 		["ui-select"] = { require("telescope.themes").get_dropdown() },
 	},
