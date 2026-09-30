@@ -5,16 +5,16 @@ set -euo pipefail
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STAMP="$(date +%Y%m%d%H%M%S)"
 
-# repo path -> target path
-declare -A LINKS=(
-  [.wezterm.lua]="$HOME/.wezterm.lua"
-  [AGENTS.md]="$HOME/AGENTS.md"
-  [nvim]="$HOME/.config/nvim"
+# repo path:target path (plain array - macOS ships bash 3.2 without associative arrays)
+LINKS=(
+  ".wezterm.lua:$HOME/.wezterm.lua"
+  "AGENTS.md:$HOME/AGENTS.md"
+  "nvim:$HOME/.config/nvim"
 )
 
-for src in "${!LINKS[@]}"; do
-  target="${LINKS[$src]}"
-  src="$DOTFILES/$src"
+for pair in "${LINKS[@]}"; do
+  target="${pair#*:}"
+  src="$DOTFILES/${pair%%:*}"
 
   if [ "$(readlink "$target" 2>/dev/null)" = "$src" ]; then
     echo "ok       $target"
