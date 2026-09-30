@@ -30,6 +30,10 @@
       "rev": "e0b86624ccfd5f98af46a780049037fa07521331",
       "src": "https://github.com/xTacobaco/cursor-agent.nvim"
     },
+    "diffview.nvim": {
+      "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
+      "src": "https://github.com/sindrets/diffview.nvim"
+    },
     "fidget.nvim": {
       "rev": "82404b196e73a00b1727a91903beef5ddc319d22",
       "src": "https://github.com/j-hui/fidget.nvim"
@@ -83,6 +87,10 @@
     "none-ls-extras.nvim": {
       "rev": "27681d797a26f1b4d6119296df42f5204c88a2dc",
       "src": "https://github.com/nvimtools/none-ls-extras.nvim"
+    },
+    "neogit": {
+      "rev": "70708be9664b7fcdd010eb07bdc3ebc9311c2027",
+      "src": "https://github.com/NeogitOrg/neogit"
     },
     "none-ls.nvim": {
       "rev": "01f8e62ea11603e59ad9ff7afcfa94fd183f76d6",
