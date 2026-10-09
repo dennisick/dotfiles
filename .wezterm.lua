@@ -9,11 +9,12 @@ config.window_padding = {
   bottom = 0,
 }
 
-config.default_domain = "WSL:Ubuntu"
+-- config.default_domain = "WSL:Ubuntu"
 config.color_scheme = "Tokyo Night"
 config.font = wezterm.font("CaskaydiaCove Nerd Font")
 config.font_size = 15.0
-config.window_background_opacity = 1
+-- Only the background is transparent; text keeps full opacity (text_background_opacity defaults to 1.0).
+config.window_background_opacity = 0.85
 config.macos_window_background_blur = 50
 config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "TITLE | RESIZE"
@@ -33,9 +34,13 @@ local function same_text_hsb(actual, expected)
 		and actual.brightness == expected.brightness
 end
 
-wezterm.on("window-focus-changed", function(window)
+-- wezterm.GLOBAL survives the config reloads that set_config_overrides() triggers.
+local function apply_window_appearance(window)
 	local overrides = window:get_config_overrides() or {}
 	local text_hsb, opacity
+	if wezterm.GLOBAL.opaque_background then
+		opacity = 1.0
+	end
 	if not window:is_focused() then
 		text_hsb = UNFOCUSED_FOREGROUND_TEXT_HSB
 		opacity = UNFOCUSED_WINDOW_BACKGROUND_OPACITY
@@ -50,6 +55,13 @@ wezterm.on("window-focus-changed", function(window)
 	overrides.foreground_text_hsb = text_hsb
 	overrides.window_background_opacity = opacity
 	window:set_config_overrides(overrides)
+end
+
+wezterm.on("window-focus-changed", apply_window_appearance)
+
+wezterm.on("toggle-background-opacity", function(window)
+	wezterm.GLOBAL.opaque_background = not wezterm.GLOBAL.opaque_background
+	apply_window_appearance(window)
 end)
 
 -- Define user event to toggle window decorations
@@ -69,6 +81,11 @@ config.keys = {
     key = 'd',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.EmitEvent('toggle-decorations'),
+  },
+  {
+    key = 'b',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.EmitEvent('toggle-background-opacity'),
   },
 }
 
